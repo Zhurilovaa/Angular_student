@@ -29,6 +29,7 @@ header {
 }
 .list .user {
   width: 45%;
+  align-self: flex-start;
 }
 .list .user p {
   font-family: 'Balsamiq Sans', cursive;
