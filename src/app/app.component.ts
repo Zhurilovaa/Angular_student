@@ -1,5 +1,5 @@
 // import { identifierName, ReturnStatement } from "@angular/compiler";
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Student } from "./student";
 
 @Component({
@@ -55,8 +55,20 @@ export class AppComponent {
       const tempStud = new Student(names[i], patronymic[i], surnames[i], birthDates[i], middleMark[i]);
       this.students.push(tempStud);
     }
-    this.sortStud();
+    this.sortStud(); 
     this.createTableStud();
+  }
+
+  findMinDate(): Date {
+    if (this.tableStud !== []) {
+      let min = this.students[0].birthdate;
+      for (const stud of this.tableStud) {
+        min = (stud.birthdate < min) ? stud.birthdate : min;
+      }
+      console.log(min);
+      return min;
+    }
+    return new Date("1995-00-01");    
   }
 
   createTableStud(): void{
@@ -85,7 +97,7 @@ export class AppComponent {
         this.filterEnd = 5.0;
         break;
       case "date":
-        this.filterStart = new Date("1998-12-31");
+        this.filterStart = this.findMinDate();
         this.filterEnd = new Date();
         break;
       default:
@@ -110,7 +122,7 @@ export class AppComponent {
         case "date":
           switch (position){
             case "start":
-              this.filterStart = limit ? new Date(limit) : new Date("1998-12-31");
+              this.filterStart = limit ? new Date(limit) : this.findMinDate();
               break;
             case "end":
               this.filterEnd = limit ? new Date(limit) : new Date();
@@ -197,7 +209,7 @@ export class AppComponent {
     this.createTableStud();
   }
 
-  sortStud(param: string = "id" ): void {
+  sortStud(param: string = "id"): void {
     this.students.sort((prev: Student, next: Student) => {
       if (prev.getFieldByKey(param) < next.getFieldByKey(param)) {
         return -1;
