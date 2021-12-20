@@ -1,5 +1,5 @@
 // import { identifierName, ReturnStatement } from "@angular/compiler";
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import { Student } from "./student";
 
 @Component({
@@ -18,10 +18,13 @@ export class AppComponent {
   fiterParam: string = "number";
   filterStart: Date | number = 0.0;
   filterEnd: Date | number = 5.0;
+  minDate: Date = new Date();
   processDel: boolean = false;
   delStudent: Student = new Student("n", "s", "p", new Date(), 0);
 
   constructor(){
+    const today = new Date();
+    this.minDate = new Date(today.setFullYear(today.getFullYear() - 30));
     this.fillStudent();
   }
 
@@ -55,20 +58,8 @@ export class AppComponent {
       const tempStud = new Student(names[i], patronymic[i], surnames[i], birthDates[i], middleMark[i]);
       this.students.push(tempStud);
     }
-    this.sortStud(); 
+    this.sortStud();
     this.createTableStud();
-  }
-
-  findMinDate(): Date {
-    if (this.tableStud !== []) {
-      let min = this.students[0].birthdate;
-      for (const stud of this.tableStud) {
-        min = (stud.birthdate < min) ? stud.birthdate : min;
-      }
-      console.log(min);
-      return min;
-    }
-    return new Date("1995-00-01");    
   }
 
   createTableStud(): void{
@@ -97,7 +88,7 @@ export class AppComponent {
         this.filterEnd = 5.0;
         break;
       case "date":
-        this.filterStart = this.findMinDate();
+        this.filterStart = this.minDate;
         this.filterEnd = new Date();
         break;
       default:
@@ -122,7 +113,7 @@ export class AppComponent {
         case "date":
           switch (position){
             case "start":
-              this.filterStart = limit ? new Date(limit) : this.findMinDate();
+              this.filterStart = limit ? new Date(limit) : this.minDate;
               break;
             case "end":
               this.filterEnd = limit ? new Date(limit) : new Date();
