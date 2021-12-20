@@ -67,4 +67,13 @@ export class Student {
         // если не вышли раньше, значит просят оценку
         return this.middleMark;
     }
+
+    editStudent(name: string, patronym: string, surname: string, birthdate: Date, middleMark: number): void{
+        this.name = name;
+        this.patronym = patronym;
+        this.surname = surname;
+        this.birthdate = birthdate;
+        this.middleMark = middleMark;
+        this.id = surname + name + patronym + this.dateId();
+    }
 }

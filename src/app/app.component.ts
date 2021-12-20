@@ -12,14 +12,19 @@ export class AppComponent {
 
   // массив студентов
   students: Student[] = [];
+  // для вывода в таблицу
+  tableStud: Student[] = [];
   classOff: boolean = false;
   fiterParam: string = "number";
   filterStart: Date | number = 0.0;
   filterEnd: Date | number = 5.0;
+  minDate: Date = new Date();
   processDel: boolean = false;
   delStudent: Student = new Student("n", "s", "p", new Date(), 0);
 
   constructor(){
+    const today = new Date();
+    this.minDate = new Date(today.setFullYear(today.getFullYear() - 30));
     this.fillStudent();
   }
 
@@ -54,18 +59,25 @@ export class AppComponent {
       this.students.push(tempStud);
     }
     this.sortStud();
+    this.createTableStud();
+  }
+
+  createTableStud(): void{
+    this.tableStud = [];
+    for (const stud of this.students){
+      // условие попадания в таблицу
+      if (stud.filtred && !(stud.deleted)) {
+        this.tableStud.push(stud);
+      }
+    }
   }
 
   getAllStudent(): Student[] {
-    return this.students;
+    return this.tableStud;
   }
 
   setClassOff(): void {
-    if (this.classOff){
-      this.classOff = false;
-    } else {
-      this.classOff = true;
-    }
+    this.classOff = this.classOff ? false : true;
   }
 
   setFilterParam(param: string): void {
@@ -76,7 +88,7 @@ export class AppComponent {
         this.filterEnd = 5.0;
         break;
       case "date":
-        this.filterStart = new Date("1998-12-31");
+        this.filterStart = this.minDate;
         this.filterEnd = new Date();
         break;
       default:
@@ -89,18 +101,10 @@ export class AppComponent {
         case "number":
           switch (position){
             case "start":
-              if (limit){
-                this.filterStart = +limit;
-              } else {
-                this.filterStart = 0.0;
-              }
+              this.filterStart = limit ? +limit : 0.0 ;
               break;
             case "end":
-              if (limit){
-                this.filterEnd = +limit;
-              } else {
-                this.filterEnd = 5.0;
-              }
+              this.filterEnd = limit ? +limit : 5.0;
               break;
             default:
               break;
@@ -109,18 +113,10 @@ export class AppComponent {
         case "date":
           switch (position){
             case "start":
-              if (limit){
-                this.filterStart = new Date(limit);
-              } else {
-                this.filterStart = new Date("1998-12-31");
-              }
+              this.filterStart = limit ? new Date(limit) : this.minDate;
               break;
             case "end":
-              if (limit){
-                this.filterEnd = new Date(limit);
-              } else {
-                this.filterEnd = new Date();
-              }
+              this.filterEnd = limit ? new Date(limit) : new Date();
               break;
             default:
               break;
@@ -162,66 +158,49 @@ export class AppComponent {
     for (const stud of this.students) {
       switch (param) {
         case "name":
-          if (stud.name.toLowerCase().startsWith(key.trim().toLowerCase())) {
-            stud.find = true;
-          } else {
-            stud.find = false;
-          }
+            stud.find = stud.name.toLowerCase().startsWith(key.trim().toLowerCase()) ? true : false;
           break;
         case "surname":
-          if (stud.surname.toLowerCase().startsWith(key.trim().toLowerCase())) {
-            stud.find = true;
-          } else {
-            stud.find = false;
-          }
+            stud.find = stud.surname.toLowerCase().startsWith(key.trim().toLowerCase()) ?  true : false;
           break;
         case "patronym":
-          if (stud.patronym.toLowerCase().startsWith(key.trim().toLowerCase())) {
-            stud.find = true;
-          } else {
-            stud.find = false;
-          }
+            stud.find = stud.patronym.toLowerCase().startsWith(key.trim().toLowerCase()) ? true : false;
           break;
         default:
           break;
       }
     }
+    this.createTableStud();
   }
 
   filterStud(): void {
     switch (this.fiterParam){
       case "number":
         for (const stud of this.students){
-          if ((stud.middleMark < this.filterStart) || (stud.middleMark > this.filterEnd)) {
-            // не подходит под диапозон
-            stud.filtred = false;
-          } else {
-            stud.filtred = true;
-          }
+          // не подходит под диапозон
+          stud.filtred = ((stud.middleMark < this.filterStart) || (stud.middleMark > this.filterEnd)) ? false : true ;
         }
         break;
       case "date":
         for (const stud of this.students){
-          if ((stud.birthdate < this.filterStart) || (stud.birthdate > this.filterEnd)) {
-            // не подходит под диапозон
-            stud.filtred = false;
-          } else {
-            stud.filtred = true;
-          }
+          // не подходит под диапозон
+          stud.filtred = ((stud.birthdate < this.filterStart) || (stud.birthdate > this.filterEnd)) ? false : true ;
         }
         break;
       default:
         break;
     }
+    this.createTableStud();
   }
 
   notFilter(): void {
     for (const stud of this.students){
       stud.filtred = true;
     }
+    this.createTableStud();
   }
 
-  sortStud(param: string = "id" ): void {
+  sortStud(param: string = "id"): void {
     this.students.sort((prev: Student, next: Student) => {
       if (prev.getFieldByKey(param) < next.getFieldByKey(param)) {
         return -1;
@@ -234,6 +213,7 @@ export class AppComponent {
       }
       return 0;
     });
+    this.createTableStud();
   }
 
   getShowMessage(): boolean {
@@ -242,6 +222,7 @@ export class AppComponent {
 
   deleteRow(): void {
     this.delStudent.deleted = true;
+    this.createTableStud();
     this.popupOff();
   }
 

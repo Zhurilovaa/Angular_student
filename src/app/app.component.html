@@ -18,6 +18,7 @@
       <p><input name="filter" type="radio" (click)="setFilterParam('date')">по дате рождения</p>
       <p><input name="filter" type="radio" (click)="setFilterParam('number')" checked>по среднему баллу</p>
     </div>
+    
     <input #filterStart placeholder="От..." [type]="fiterParam" min="0.0" max="4.9" step="0.1" (input)="setFilter(filterStart.value, 'start')">
     <input #filterEnd placeholder="До..." [type]="fiterParam" min="0.1" max="5.0" step="0.1" (input)="setFilter(filterEnd.value, 'end')">
 
@@ -51,6 +52,7 @@
   </div>   
   </div>
   <div class="tableStudent">
+    <app-form [students]="students" [tableS]="tableStud"></app-form>
     <table class = "studentTable">
       <tr>
         <th>#</th>
@@ -62,13 +64,13 @@
         <th></th>
       </tr>
       <tr *ngFor="let stud of getAllStudent(); let i = index" [class]="setStudClass(stud)">
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{i+1}} </td>
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{stud.surname}} </td>
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{stud.name}} </td>
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{stud.patronym}} </td>        
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{stud.niceBirthDate()}} </td>
-        <td *ngIf="stud.filtred && !(stud.deleted)"> {{stud.middleMark}} </td>
-        <td *ngIf="stud.filtred && !(stud.deleted)">
+        <td> {{i+1}} </td>
+        <td> {{stud.surname}} </td>
+        <td> {{stud.name}} </td>
+        <td> {{stud.patronym}} </td>        
+        <td> {{stud.niceBirthDate()}} </td>
+        <td> {{stud.middleMark}} </td>
+        <td>
           <button type="button" class="btnDel" (click)="popupOff(stud)">x</button>
         </td>
       </tr>
