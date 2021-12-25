@@ -52,24 +52,27 @@
   </div>   
   </div>
   <div class="tableStudent">
-    <app-form [students]="students" [tableS]="tableStud"></app-form>
+    <app-form [students]="students" [tableS]="tableStud" [param]="'add'"></app-form>
     <table class = "studentTable">
       <tr>
-        <th>#</th>
+        <th>#</th>        
         <th>Фамилия</th>
         <th>Имя</th>
         <th>Отчество</th>        
         <th>Дата рождения</th>
         <th>Средний балл</th>
         <th></th>
+        <th></th>
       </tr>
       <tr *ngFor="let stud of getAllStudent(); let i = index" [class]="setStudClass(stud)">
         <td> {{i+1}} </td>
+        
         <td> {{stud.surname}} </td>
         <td> {{stud.name}} </td>
         <td> {{stud.patronym}} </td>        
         <td> {{stud.niceBirthDate()}} </td>
-        <td> {{stud.middleMark}} </td>
+        <td> {{stud.middleMark}} </td> 
+        <td> <app-form [students]="students" [tableS]="tableStud" [param]="'edit'" [idStud]="i"></app-form></td>       
         <td>
           <button type="button" class="btnDel" (click)="popupOff(stud)">x</button>
         </td>

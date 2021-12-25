@@ -1,32 +1,8 @@
-<div class="button">
-    <button class="btn" (click)="setPopUpAdd()">Добавить студента</button>
-    <button class="btn" (click)="setPopUpEditId()">Редактировать студента</button>
- </div>
+<button *ngIf="param === 'add'"(click)="setPopUpAddOrEdit()" class="btn">
+    <p>Добавить студента</p>      
+</button> 
+<a *ngIf="param === 'edit'" (click)="setPopUpAddOrEdit()" class="edit">edit</a>
  
-<div class="popup_bg" *ngIf="getPopUpEditId()===true">
-    <div class="popup">
-        <button class="btn_close" (click)="popUpIdClose()">x</button>
-        <label>
-            <div class="label__text">
-            Введите номер строки студента в таблице:
-            </div>
-            <input #IdStud type="number" (input)="false">
-        </label>
-        <button (click)="checkId(IdStud.value)">продолжить</button>
-    </div>
-</div>
-
-<div class="popup_bg" *ngIf="getPopUpError()===true">
-    <div class="popup">
-        <label>
-            <div class="label__text">
-            Запись о студенте с данным идентификатором не найдена. Повторите ввод.
-            </div>
-        </label>
-        <button (click)="popUpErrorClose()">ок</button>
-    </div>
-</div>
-
 <div class="popup_bg" *ngIf="(getPopUpAdd()=== true)||(getPopUpEdit()=== true)">
     <div class="popup">
         <button class="btn_close" (click)="popUpCloseStud()">x</button>
@@ -91,3 +67,30 @@
         </form>
     </div>
 </div>
+
+<!-- Окно с id студента (прошлый вариант) -->
+<!-- 
+<div class="popup_bg" *ngIf="getPopUpEditId()===true">
+    <div class="popup">
+        <button class="btn_close" (click)="popUpIdClose()">x</button>
+        <label>
+            <div class="label__text">
+            Введите номер строки студента в таблице:
+            </div>
+            <input #IdStud type="number" (input)="false">
+        </label>
+        <button (click)="checkId(IdStud.value)">продолжить</button>
+    </div>
+</div>
+
+<div class="popup_bg" *ngIf="getPopUpError()===true">
+    <div class="popup">
+        <label>
+            <div class="label__text">
+            Запись о студенте с данным идентификатором не найдена. Повторите ввод.
+            </div>
+        </label>
+        <button (click)="popUpErrorClose()">ок</button>
+    </div>
+</div>
+ -->

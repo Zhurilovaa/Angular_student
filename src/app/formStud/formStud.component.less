@@ -9,9 +9,7 @@
     margin-bottom: 5px;
 }
 
-.btn{
-    width: 30%;
-    height: 25%;
+.btn{    
     margin:4px;
     background: linear-gradient(to right, @color_back1, @color_back2);
     .text;
@@ -21,7 +19,15 @@
       transition:background-color 0.4s ease;
       border: 2px solid @color_text;
     }
+    cursor: pointer;    
+}    
+.edit{
+    .text;
     cursor: pointer;
+    text-decoration: underline @color_back1; 
+    &:hover{       
+        color:@color_textForm;
+    }
 }
 
 .popup_bg{

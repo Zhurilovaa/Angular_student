@@ -16,14 +16,12 @@ export interface ValidationErrors {
 export class FormStudComponent {
     @Input() students: Student[] = [];
     @Input() tableS: Student[] = [];
+    @Input() param: string = "";
+    @Input() idStud: number = -1;
 
     popUpAdd: boolean = false;
     popUpEdit: boolean = false;
-    popUpEditIdStud: boolean = false;
-    popUpError: boolean = false;
-
-    id: number = -1;
-
+ 
     formStud: FormGroup = new FormGroup({
         studName: new FormGroup({
             name: new FormControl(null, [Validators.required, Validators.pattern("[а-яА-Я]*")]),
@@ -34,27 +32,20 @@ export class FormStudComponent {
         mark: new FormControl(null, [Validators.required, this.markRangeValidator])
     });
 
-    setPopUpAdd(): void {
-        this.popUpAdd = true;
+    setPopUpAddOrEdit(): void {        
+        this.popUpAdd = (this.param === 'add') ? true : false;
+        this.popUpEdit = (this.param === 'edit') ? true : false;
+        if(this.popUpEdit){
+            this.setValue();
+        }
+        console.log("param: ", this.param)
+        console.log("popUpAdd: ", this.popUpAdd);
+        console.log("popUpEdit: ", this.popUpEdit);
     }
     getPopUpAdd(): boolean {
         return this.popUpAdd;
     }
-
-
-    setPopUpEditId(): void {
-        this.popUpEditIdStud = true;
-    }
-    getPopUpEditId(): boolean {
-        return this.popUpEditIdStud;
-    }
-    popUpIdClose(): void {
-        this.popUpEditIdStud = false;
-    }
-
-    setPopUpEdit(): void {
-        this.popUpEdit = true;
-    }
+    
     getPopUpEdit(): boolean {
         return this.popUpEdit;
     }
@@ -63,16 +54,6 @@ export class FormStudComponent {
         this.popUpAdd = false;
         this.popUpEdit = false;
         this.formStud.reset();
-    }
-
-    setPopUpError(): void {
-        this.popUpError = true;
-    }
-    getPopUpError(): boolean {
-        return this.popUpError;
-    }
-    popUpErrorClose(): void {
-        this.popUpError = false;
     }
 
     // валидаторы
@@ -128,7 +109,7 @@ export class FormStudComponent {
     }
 
     private setValue(): void {
-        const studToEdit = this.students[this.id - 1];
+        const studToEdit = this.students[this.idStud];
         if (studToEdit !== undefined){
             const correctDate = studToEdit?.birthdate;
             this.formStud.get("bDate")?.setValue(formatDate(correctDate.toLocaleDateString().split(".").reverse().join("-"), "yyyy-MM-dd", "en"));
@@ -159,24 +140,49 @@ export class FormStudComponent {
                 this.tableS.push(currStud);
                 this.popUpCloseStud();
             } else if (this.popUpEdit){ // редактируем
-                this.students[this.id - 1].editStudent(name, patronym, surname, birthDate, mark);
-                this.tableS[this.id - 1].editStudent(name, patronym, surname, birthDate, mark);
+                this.students[this.idStud].editStudent(name, patronym, surname, birthDate, mark);
+                this.tableS[this.idStud].editStudent(name, patronym, surname, birthDate, mark);
                 this.popUpCloseStud();
             }
         }
 
     }
-
+    /*
+    //Вариант с вводом id студента (прошлый вариант)
+    id: number = -1;
+    popUpEditIdStud: boolean = false;
+    popUpError: boolean = false;
+    setPopUpEditId(): void {
+        this.popUpEditIdStud = true;
+    }
+    getPopUpEditId(): boolean {
+        return this.popUpEditIdStud;
+    }
+    popUpIdClose(): void {
+        this.popUpEditIdStud = false;
+    }
+    setPopUpEdit(): void {
+        this.popUpEdit = true;
+    }
+    setPopUpError(): void {
+        this.popUpError = true;
+    }
+    getPopUpError(): boolean {
+        return this.popUpError;
+    }
+    popUpErrorClose(): void {
+        this.popUpError = false;
+    }
     checkId(idInput: string): void {
         const idcheck: number = +idInput;
         if ((idInput) && (idcheck >= 1) && (idcheck <= this.tableS.length) && ((idcheck % 1) === 0)) {
-                this.id = idcheck;
+                this.idStud = idcheck;
                 this.popUpIdClose();
-                this.setPopUpEdit();
+                //this.setPopUpEdit();
                 this.setValue();
         } else {
             this.setPopUpError();
         }
-    }
+    }*/
 
 }
