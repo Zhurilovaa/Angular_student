@@ -1,0 +1,87 @@
+<div class="list">
+    <div class="user">
+      <div class="checkbox" animDiv>
+        <p><input  type="checkbox" (click)="setClassOn()" checked>Отключить/Включить выделение по оценкам</p>
+      </div>    
+      <hr>
+      <div animDiv>
+        <p>Поиск студента:</p>
+        <input #findSurname placeholder="Введите Фамилию... " type="text" (input)="findStudent(findSurname.value, 'surname')">
+        <input #findName placeholder="Введите Имя... " type="text" (input)="findStudent(findName.value, 'name')">
+        <input #findPatronym placeholder="Введите Отчество... " type="text"
+          (input)="findStudent(findPatronym.value, 'patronym')">
+      </div>
+      <hr>
+      <div animDiv>
+        <p>Фильтрация студентов:</p>
+        <div class="radio">
+          <p><input name="filter" type="radio" (click)="setFilterParam('date')">по дате рождения</p>
+          <p><input name="filter" type="radio" (click)="setFilterParam('number')" checked>по среднему баллу</p>
+        </div>
+      
+        <input #filterStart placeholder="От..." [type]="fiterParam" min="0.0" max="4.9" step="0.1"
+          (input)="setFilter(filterStart.value, 'start')">
+        <input #filterEnd placeholder="До..." [type]="fiterParam" min="0.1" max="5.0" step="0.1"
+          (input)="setFilter(filterEnd.value, 'end')">
+      
+        <button type="button" class="btn" (click)="filterStud()">Фильтр</button>
+        <button type="button" class="btn" (click)="notFilter()">Отменить фильтр</button>
+      </div>
+      <hr>
+    <div animDiv>
+      <p>Сортировать список студентов по:</p>
+      <div class="radio">
+        <table class="radio">
+          <tr>
+            <td>
+              <p><input name="sort" type="radio" (click)="sortStud()" checked>умолчанию</p>
+              <p><input name="sort" type="radio" (click)="sortStud('birthdate')">Дате рождения</p>
+              <p><input name="sort" type="radio" (click)="sortStud('middleMark')">Среднему баллу</p>
+            </td>
+            <td>
+              <p><input name="sort" type="radio" (click)="sortStud('surname')">Фамилии</p>
+              <p><input name="sort" type="radio" (click)="sortStud('name')">Имени</p>
+              <p><input name="sort" type="radio" (click)="sortStud('patronym')">Отчеству</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+      <hr> 
+      <div class="messageForDelete" *ngIf="getShowMessage()">
+        <p>Вы уверены, что хотите удалить этого студента из списка?</p>
+        <div class = "flex-just-sp-ar">
+          <button type="button" class="btn" (click)="deleteRow()">Да</button>
+          <button type="button" class="btn" (click)="popupOff()">Нет</button>
+        </div>    
+    </div>   
+    </div>
+    <div class="tableStudent">
+      <app-formStud [students]="students" [tableS]="tableStud" [param]="'add'"></app-formStud>
+      <table class = "studentTable">
+        <tr>
+          <th>#</th>        
+          <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Отчество</th>        
+          <th>Дата рождения</th>
+          <th>Средний балл</th>
+          <th></th>
+          <th></th>
+        </tr>
+         <tr *ngFor="let stud of getAllStudent(); let i = index"  studClass [markCheck]="getClassOn()" [studFlags] = "stud.getAllFlags()" > 
+          <td> {{i+1}} </td>          
+          <td> {{stud.surname | niceName}} </td>
+          <td> {{stud.name | niceName}} </td>
+          <td> {{stud.patronym | niceName}} </td>        
+          <td> {{stud.birthdate | niceDate }} </td>
+          <td> {{stud.middleMark}} </td> 
+          <td> <app-formStud [students]="students" [tableS]="tableStud" [param]="'edit'" [idStud]="i"></app-formStud></td>       
+          <td>
+            <button type="button" class="btnDel" (click)="popupOff(stud)">x</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+ 

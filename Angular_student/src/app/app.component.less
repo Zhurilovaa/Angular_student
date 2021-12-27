@@ -1,0 +1,27 @@
+@color_back1:#6fe5e9;
+@color_back2:#f0e76e;
+.base(){
+    display:flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;        
+}
+
+.text(){
+    font-family: 'Arial', sans-serif;  
+}
+
+.inp{
+    width:5%;
+    border: 0px;           
+    height: 1em;
+}
+
+header{
+    background: linear-gradient(to right, @color_back1, @color_back2);
+    display:flex;
+    .base;
+    margin: 3%;
+    .text;
+}

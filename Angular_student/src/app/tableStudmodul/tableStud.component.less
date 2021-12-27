@@ -1,0 +1,151 @@
+@color_text:#000000;
+@color_back1:#6fe5e9;
+@color_back2:#f0e76e;
+@colorbag_bad: #807a7a;
+@color_table: lightgrey;
+@color_bad: #ac0808;
+.base(){
+    display:flex; 
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;        
+}
+
+.text(){
+    font-family: 'Arial', sans-serif;  
+}
+
+.inp{
+    width:5%;
+    border: 0px;           
+    height: 1em;
+}
+
+.list {
+    border: 5px solid transparent;
+    border-image: linear-gradient(to right, @color_back1 , @color_back2);
+    border-image-slice: 1;
+
+    margin: 0px auto;
+    padding: 1%;
+
+    .base();
+    justify-content: space-around;
+    width: 90%;
+
+    .user{
+        width: 45%;
+        align-self: flex-start;
+        p{
+            .text;
+        }
+        input{
+            width: 45%;
+            height: 25px;
+            margin:4px;         
+        }
+        .btn{
+            width: 30%;
+            height: 25%;
+            margin:4px;
+            background: linear-gradient(to right, @color_back1, @color_back2);
+            .text;
+            &:hover{
+                background: linear-gradient(to right, #08c2cf, #e7d52d);
+              color: @color_text;
+              transition:background-color 0.4s ease;
+              border: 2px solid @color_text;
+            }
+            cursor: pointer;
+        }
+        input[type=radio] {
+            .inp;
+        }
+        input[type=checkbox]{
+            .inp;
+        }   
+        table.radio{
+            width: 80%;
+            
+            td{
+                text-align: left;
+                width: 20%;
+            }
+        } 
+        .messageForDelete {
+            position: absolute;
+            top: 35%;
+            left: 35%;          
+            width: 30%;
+            height: 20%;          
+            padding: 1em;          
+            background: white;
+            border-radius: 15px;
+            border: 1px solid lightgrey;
+            text-align:center;          
+            color: black
+        }          
+        .flex-just-sp-ar {
+            width: 100%;          
+            margin-top: 3em;          
+            display: flex;
+            justify-content: space-around;
+        }  
+    }
+
+    .tableStudent{
+        width: 45%;
+        .text;
+        .studentTable{
+            margin: 0px auto;
+            border: 2px solid @colorbag_bad;
+            width:100%;
+            border-collapse: collapse;
+            td:first-child{
+                background: @color_table;
+            }
+            th{
+                background: @color_table;
+                border: 2px solid grey;
+                font-size: 15px;
+            }
+            td {
+                border: 2px solid grey;
+                padding: 12px 2px;
+            }  
+            .findST {
+                background: @color_back2;              
+                color: darkgreen;
+            }
+            .badMark {
+                color: @color_bad;
+                font-weight: bold;
+            }   
+            .inProc {
+                background: @color_back1;              
+                color: @color_text;
+            }                
+        }
+        .btnDel{
+            background: @color_back1;
+            border-radius: 50%;
+        }
+        .focusNow{
+            font-weight: bold;
+            background: linear-gradient(to right, @color_back1, @color_back2);
+        }
+    }
+}  
+.animDiv{
+    background: linear-gradient(to top, #d3d1c6, #b6e7e9);
+    box-shadow:
+  -1px 0px @color_back2, -1px 1px @color_back1,
+  -2px 1px @color_back2, -2px 2px @color_back1,
+  -3px 2px @color_back2, -3px 3px @color_back1,
+  -4px 3px @color_back2, -4px 4px @color_back1;
+}
+
+
+
+  

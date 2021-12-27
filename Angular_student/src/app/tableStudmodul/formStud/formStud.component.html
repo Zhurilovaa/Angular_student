@@ -1,0 +1,96 @@
+<button *ngIf="param === 'add'"(click)="setPopUpAddOrEdit()" class="btn">
+    <p>Добавить студента</p>      
+</button> 
+<a *ngIf="param === 'edit'" (click)="setPopUpAddOrEdit()" class="edit" title="Вызов окна для редактирования данных студента">edit</a>
+ 
+<div class="popup_bg" *ngIf="(getPopUpAdd()=== true)||(getPopUpEdit()=== true)">
+    <div class="popup">
+        <button class="btn_close" (click)="popUpCloseStud()">x</button>
+        <!-- Реактивная форма добавления студента -->
+        <form novalidate [formGroup]="formStud" (ngSubmit)="addOrEditStudent()">
+            <div *ngIf="getPopUpAdd()===true" class="label__text">
+                Добавить студента:
+            </div>
+            <div *ngIf="getPopUpEdit()===true" class="label__text">
+                Редактировать студента:
+            </div>
+            <div formGroupName="studName">
+                <label>
+                    <input placeholder="Имя" type="text" formControlName="name">
+                </label>
+                <p *ngIf="formStud.get('studName.name')?.dirty && formStud.get('studName.name')?.invalid" class="error">
+                    Ввод Имени происходит с ошибками. Пожалуйста проверьте введённое значение.
+                </p>
+                <label>
+                    <input placeholder="Отчество" type="text" formControlName="patronym">
+                </label>
+                <p *ngIf="formStud.get('studName.patronym')?.dirty && formStud.get('studName.patronym')?.invalid" class="error">
+                    Ввод Отчества выполнен с ошибками. Пожалуйста проверьте введённое значение.
+                </p>
+                <label>
+                    <input placeholder="Фамилия" type="text" formControlName="surname">
+                </label>
+                <p *ngIf="formStud.get('studName.surname')?.dirty && formStud.get('studName.surname')?.invalid" class="error">
+                    Ввод Фамилии выполнен с ошибками. Пожалуйста проверьте введённое значение.
+                </p>
+                <p *ngIf="formStud.get('studName.name')?.dirty && formStud.get('studName.patronym')?.dirty
+                && formStud.get('studName.surname')?.dirty && formStud.get('studName')?.invalid"class="error">
+                    <span *ngIf="formStud.get('studName.name')?.valid && formStud.get('studName.patronym')?.valid && formStud.get('studName.surname')?.valid">
+                        ФИО введено неверно! Проверьте совпадение Имени с Фамилией или с Отчеством.
+                    </span>
+                </p>
+            </div>
+            
+            <label>
+                <div class="label__text">
+                    Дата рождения:
+                </div>
+                <input type="date" formControlName="bDate">
+            </label>
+
+            <p *ngIf="formStud.get('bDate')?.dirty && formStud.get('bDate')?.invalid"
+                class="error">Студент должен быть старше 10 лет и младше 30 лет
+            </p>
+
+            <label>
+                <div class="label__text">
+                Средний бал:
+                </div>
+                <input type="number" formControlName="mark">
+            </label>
+
+            <p *ngIf="formStud.get('mark')?.dirty && formStud.get('mark')?.invalid "
+                class="error">Диапозон 0.0 - 5.0
+            </p>
+
+            <button  [ngClass]="{'disabled':formStud.invalid}" type="submit">Ввод</button>
+        </form>
+    </div>
+</div>
+
+<!-- Окно с id студента (прошлый вариант) -->
+<!-- 
+<div class="popup_bg" *ngIf="getPopUpEditId()===true">
+    <div class="popup">
+        <button class="btn_close" (click)="popUpIdClose()">x</button>
+        <label>
+            <div class="label__text">
+            Введите номер строки студента в таблице:
+            </div>
+            <input #IdStud type="number" (input)="false">
+        </label>
+        <button (click)="checkId(IdStud.value)">продолжить</button>
+    </div>
+</div>
+
+<div class="popup_bg" *ngIf="getPopUpError()===true">
+    <div class="popup">
+        <label>
+            <div class="label__text">
+            Запись о студенте с данным идентификатором не найдена. Повторите ввод.
+            </div>
+        </label>
+        <button (click)="popUpErrorClose()">ок</button>
+    </div>
+</div>
+ -->

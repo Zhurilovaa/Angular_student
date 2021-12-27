@@ -1,0 +1,137 @@
+@color_back1:#6fe5e9;
+@color_back2:#f0e76e;
+@color_textForm: #387375;
+@color_text:#000000;
+.text(){
+    font-family: 'Arial', sans-serif;     
+    font-weight: 500;
+    color: @color_text;
+    margin-bottom: 5px;
+}
+
+.btn{    
+    margin:4px;
+    background: linear-gradient(to right, @color_back1, @color_back2);
+    .text;
+    &:hover{
+        background: linear-gradient(to right, #08c2cf, #e7d52d);
+      color: @color_text;
+      transition:background-color 0.4s ease;
+      border: 2px solid @color_text;
+    }
+    cursor: pointer;    
+}    
+.edit{
+    .text;
+    cursor: pointer;
+    text-decoration: underline @color_back1; 
+    &:hover{       
+        color:@color_textForm;
+    }
+}
+
+.popup_bg{
+    position: fixed; //фиксируем относительно окна браузера
+    top: 0;
+    left: 0;
+    //во весь экран
+    width: 100%;
+    height: 100vh;
+    //размытие фона   
+    background: rgba(0,0,0,0.5);  
+    transition: 0.5s all;
+
+    .popup{
+        position: absolute;
+        top: 15%;
+        left: 10%;
+
+        border: 5px solid transparent;
+        border-image: linear-gradient(to right, @color_back1, @color_back2);
+        border-image-slice: 1;
+
+        background: #fff;
+        width: 400px;
+        padding: 25px;
+        transition: 0.5s all; 
+        text-align: center; 
+        .error{
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin: 5px 0 10px;
+            padding-left: 5px;
+        }
+        .btn_close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 25px;
+            height:25px;
+            cursor: pointer;
+            color: @color_textForm;
+            background: linear-gradient(to right, @color_back1, @color_back2);
+            border:linear-gradient(to right, @color_back1, @color_back2);
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: 0.5s all;
+        } 
+
+        label {
+            width: 100%;
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .label__text {
+            .text;
+            font-size: 14px;
+        }
+        
+        input {
+            height: 45px;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid @color_back1;
+        
+            &:focus {
+                background: @color_back2;
+            }
+        }
+        
+        button{
+            width: 45%;
+            height: 40px;
+        
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        
+            color: @color_text;
+            background: linear-gradient(to right, @color_back1, @color_back2);
+            border:linear-gradient(to right, @color_back1, @color_back2);
+        
+            font-size: 14px;
+            cursor: pointer;
+        
+            text-transform: uppercase;
+            transition: 0.5s all;
+            
+        } 
+        .disabled{
+            cursor:not-allowed;
+            background-color: grey;
+            border: 1px solid grey;
+        
+            &:hover{
+              background-color: grey;
+              border: 1px solid grey;
+              color: white;
+            }
+        }  
+                 
+    }    
+}
+
